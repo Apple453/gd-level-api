@@ -1,0 +1,23 @@
+package net.applee.gdlevelapi.objects.enums;
+
+public enum Easing {
+	NONE,
+	EASE_IN_OUT,
+	EASE_IN,
+	EASE_OUT,
+	ELASCTIC_IN_OUT,
+	ELASCTIC_IN,
+	ELASCTIC_OUT,
+	BOUNCE_IN_OUT,
+	BOUNCE_IN,
+	BOUNCE_OUT,
+	EXPONENTIAL_IN_OUT,
+	EXPONENTIAL_IN,
+	EXPONENTIAL_OUT,
+	SINE_IN_OUT,
+	SINE_IN,
+	SINE_OUT,
+	BACK_IN_OUT,
+	BACK_IN,
+	BACK_OUT,
+}

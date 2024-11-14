@@ -1,0 +1,27 @@
+package net.applee.gdlevelapi.objects.enums;
+
+public enum GroundType {
+	UNKNOWN,
+	GROUND_1,
+	GROUND_2,
+	GROUND_3,
+	GROUND_4,
+	GROUND_5,
+	GROUND_6,
+	GROUND_7,
+	GROUND_8,
+	GROUND_9,
+	GROUND_10,
+	GROUND_11,
+	GROUND_12,
+	GROUND_13,
+	GROUND_14,
+	GROUND_15,
+	GROUND_16,
+	GROUND_17,
+	GROUND_18,
+	GROUND_19,
+	GROUND_20,
+	GROUND_21,
+	GROUND_22
+}
