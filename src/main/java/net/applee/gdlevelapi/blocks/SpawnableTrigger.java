@@ -2,9 +2,9 @@ package net.applee.gdlevelapi.blocks;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.applee.gdlevelapi.key.containers.BlockKeys;
 import net.applee.gdlevelapi.key.Key;
 import net.applee.gdlevelapi.key.Property;
+import net.applee.gdlevelapi.key.containers.BlockKeys;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -19,14 +19,10 @@ public abstract class SpawnableTrigger extends AbstractTrigger {
 	protected final Property<Boolean> touchTrigger = property(BlockKeys.TOUCH_TRIGGER);
 	protected final Property<Boolean> multiTrigger = property(BlockKeys.MULTI_TRIGGER);
 
-	private void test() {
-//		System.out.println(getClass().getSimpleName() + ": " + data);
-	}
-
 	@Override
 	public void readRawProperties(Function<String, Key<?>> keyProvider, Map<String, String> rawMap) {
 		super.readRawProperties(keyProvider, rawMap);
-		test();
+//		System.out.println(getClass().getSimpleName() + ": " + data);
 	}
 
 	@Override

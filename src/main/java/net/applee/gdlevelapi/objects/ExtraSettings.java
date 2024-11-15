@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.applee.gdlevelapi.PropertyContainer;
-import net.applee.gdlevelapi.key.containers.BlockKeys;
 import net.applee.gdlevelapi.key.Property;
+import net.applee.gdlevelapi.key.containers.BlockKeys;
 
 @Getter
 @Setter

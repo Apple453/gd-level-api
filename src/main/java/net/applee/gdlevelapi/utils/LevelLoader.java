@@ -1,6 +1,5 @@
 package net.applee.gdlevelapi.utils;
 
-import net.applee.gdlevelapi.PropertyContainer;
 import net.applee.gdlevelapi.key.Key;
 import net.applee.gdlevelapi.level.LevelData;
 import net.applee.gdlevelapi.level.LevelHeaders;
@@ -61,7 +60,7 @@ public class LevelLoader {
 		var levelsMap = (Map<String, PlistHandler.Value>) fileData.get(LEVEL_STORAGE_KEY).getValue();
 		levelsMap.forEach((k, v) -> {
 			if (v.getValue() instanceof Map<?, ?> _map) {
-				Map<Key<?>, String> map = PropertyContainer.convertPlistMap((Map<String, PlistHandler.Value>) _map);
+				Map<Key<?>, String> map = MapConverter.convertPlistMap((Map<String, PlistHandler.Value>) _map);
 
 				LevelHeaders headers = new LevelHeaders();
 				headers.readProperties(map);

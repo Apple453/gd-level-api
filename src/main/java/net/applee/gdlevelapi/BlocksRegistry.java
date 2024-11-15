@@ -2,7 +2,7 @@ package net.applee.gdlevelapi;
 
 import lombok.Getter;
 import net.applee.gdlevelapi.blocks.Block;
-import net.applee.gdlevelapi.blocks.Unknown;
+import net.applee.gdlevelapi.blocks.UnknownBlock;
 import net.applee.gdlevelapi.blocks.triggers.*;
 import net.applee.gdlevelapi.blocks.triggers.spawnable.*;
 import net.applee.gdlevelapi.blocks.triggers.spawnable.todo.*;
@@ -180,7 +180,7 @@ public class BlocksRegistry {
 		Block block = create(id);
 		if (block == null) {
 			lastId = id;
-			block = new Unknown();
+			block = new UnknownBlock();
 		}
 
 		block.readRawProperties(BlockKeys::byKey, rawData);

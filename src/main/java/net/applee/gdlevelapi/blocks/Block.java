@@ -3,9 +3,9 @@ package net.applee.gdlevelapi.blocks;
 import lombok.Getter;
 import lombok.Setter;
 import net.applee.gdlevelapi.PropertyContainer;
-import net.applee.gdlevelapi.key.containers.BlockKeys;
 import net.applee.gdlevelapi.key.Key;
 import net.applee.gdlevelapi.key.Property;
+import net.applee.gdlevelapi.key.containers.BlockKeys;
 import net.applee.gdlevelapi.objects.ExtraSettings;
 import net.applee.gdlevelapi.objects.ExtraSettingsTwo;
 import net.applee.gdlevelapi.objects.HSVContainer;
@@ -61,8 +61,8 @@ public abstract class Block extends PropertyContainer {
 	public Map<Key<?>, String> getProperties() {
 		var props = super.getProperties();
 
-		extraSettings.writeProperties(props);
-		extraSettingsTwo.writeProperties(props);
+		props.putAll(extraSettings.getProperties());
+		props.putAll(extraSettingsTwo.getProperties());
 
 		return props;
 	}
