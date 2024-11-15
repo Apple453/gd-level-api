@@ -22,7 +22,7 @@ public class LevelHeaderKeys {
 	public static final Key<Long>   ID          = add(new Key<>("k1", 0L, LongReader::new));
 	public static final Key<String> NAME        = add(new Key<>("k2", "", StringReader::new));
 	public static final Key<String> DESCRIPTION = add(new Key<>("k3", "", StringReader::new));
-	public static final Key<String> EDITOR      = add(new Key<>("k4", "", StringReader::new));
+	public static final Key<String> LEVEL       = add(new Key<>("k4", "", StringReader::new));
 	public static final Key<String> PLAYER_NAME = add(new Key<>("k5", "", StringReader::new));
 
 	public static final Key<OfficialMusic>

@@ -24,8 +24,8 @@ public abstract class SpawnableTrigger extends AbstractTrigger {
 	}
 
 	@Override
-	public void readRawProperties(Function<String, Key<?>> keyProvider, Map<String, String> rawData) {
-		super.readRawProperties(keyProvider, rawData);
+	public void readRawProperties(Function<String, Key<?>> keyProvider, Map<String, String> rawMap) {
+		super.readRawProperties(keyProvider, rawMap);
 		test();
 	}
 

@@ -1,7 +1,9 @@
 package net.applee.gdlevelapi.utils;
 
-import net.applee.gdlevelapi.key.containers.LevelHeaderKeys;
+import net.applee.gdlevelapi.PropertyContainer;
+import net.applee.gdlevelapi.key.Key;
 import net.applee.gdlevelapi.level.LevelData;
+import net.applee.gdlevelapi.level.LevelHeaders;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -14,37 +16,74 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
+/**
+ * Utils for load CCLocalLevels.dat.
+ */
 public class LevelLoader {
 
 	private static final String LEVEL_STORAGE_KEY = "LLM_01";
 
 	/**
-	 * Loads levels data from file
+	 * Loads all levels data from file
 	 *
 	 * @param file CCLocalLevels.dat
-	 * @return List of levels
+	 * @return List of loaded levels
 	 */
 	public static List<LevelData> loadLevels(File file) {
-		return loadLevels(FileUtils.readData(file));
+		return loadLevels(FileUtils.readData(file), null);
 	}
 
-	public static List<LevelData> loadLevels(byte[] data) {
-		Map<String, PlistHandler.Value> fileData = parseData(data);
+	/**
+	 * Loads levels data from file with headers predicate
+	 *
+	 * @param file      CCLocalLevels.dat
+	 * @param predicate headers predicate for level. Null for load all levels
+	 * @return List of loaded levels
+	 */
+	public static List<LevelData> loadLevels(File file, Predicate<LevelHeaders> predicate) {
+		return loadLevels(FileUtils.readData(file), predicate);
+	}
 
-		var levelsMap = (Map<String, PlistHandler.Value>) fileData.get(LEVEL_STORAGE_KEY).getValue();
+	/**
+	 * Loads levels data from bytes with predicate
+	 *
+	 * @param data      binary data of CCLocalLevels.dat
+	 * @param predicate headers predicate for level. Null for load all levels
+	 * @return List of loaded levels
+	 */
+	public static List<LevelData> loadLevels(byte[] data, Predicate<LevelHeaders> predicate) {
+		Map<String, PlistHandler.Value> fileData = parseData(data);
 
 		List<LevelData> levels = new ArrayList<>();
 
+		var levelsMap = (Map<String, PlistHandler.Value>) fileData.get(LEVEL_STORAGE_KEY).getValue();
 		levelsMap.forEach((k, v) -> {
-			if (v.getValue() instanceof Map map) {
-				levels.add(new LevelData((Map<String, PlistHandler.Value>) map));
+			if (v.getValue() instanceof Map<?, ?> _map) {
+				Map<Key<?>, String> map = PropertyContainer.convertPlistMap((Map<String, PlistHandler.Value>) _map);
+
+				LevelHeaders headers = new LevelHeaders();
+				headers.readProperties(map);
+
+				if (predicate == null || predicate.test(headers)) {
+					LevelData levelData = new LevelData();
+					levelData.setHeaders(headers);
+					levelData.loadLevel(map);
+					levels.add(levelData);
+				}
 			}
 		});
 
 		return levels;
 	}
 
+	/**
+	 * Parses CCLocalLevels.dat to raw map
+	 *
+	 * @param data binary data of CCLocalLevels.dat
+	 * @return List of loaded levels
+	 */
 	public static Map<String, PlistHandler.Value> parseData(byte[] data) {
 		String decoded = DataConverter.decode(data);
 
@@ -61,5 +100,4 @@ public class LevelLoader {
 
 		return plistHandler.getParsed();
 	}
-
 }
