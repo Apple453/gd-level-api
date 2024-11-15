@@ -82,6 +82,7 @@ public class Key<T> {
 
 		private Unknown(String key) {
 			super(key, (String) null, StringReader::new);
+			setName(key);
 		}
 	}
 }

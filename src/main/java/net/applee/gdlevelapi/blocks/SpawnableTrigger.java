@@ -20,8 +20,7 @@ public abstract class SpawnableTrigger extends AbstractTrigger {
 	protected final Property<Boolean> multiTrigger = property(BlockKeys.MULTI_TRIGGER);
 
 	private void test() {
-		System.out.println(getClass().getSimpleName() + ": " + data);
-		System.out.println("Prev: " + preview);
+//		System.out.println(getClass().getSimpleName() + ": " + data);
 	}
 
 	@Override

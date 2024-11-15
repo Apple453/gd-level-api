@@ -3,8 +3,6 @@ package net.applee.gdlevelapi;
 import lombok.Getter;
 import net.applee.gdlevelapi.blocks.Block;
 import net.applee.gdlevelapi.blocks.Unknown;
-import net.applee.gdlevelapi.blocks.triggers.CollisionTrigger;
-import net.applee.gdlevelapi.blocks.triggers.ToggleTrigger;
 import net.applee.gdlevelapi.blocks.triggers.*;
 import net.applee.gdlevelapi.blocks.triggers.spawnable.*;
 import net.applee.gdlevelapi.blocks.triggers.spawnable.todo.*;
@@ -24,7 +22,9 @@ public class BlocksRegistry {
 	@Getter
 	private static int lastId = -1;
 
-	public static void init() {
+	private static boolean initialized = false;
+
+	private static void registerBlocks() {
 		register(StartPosTrigger.class, StartPosTrigger::new, 31);
 		register(SetupKeyframeTrigger.class, SetupKeyframeTrigger::new, 3032);
 		register(CameraGuideTrigger.class, CameraGuideTrigger::new, 2016);
@@ -32,17 +32,15 @@ public class BlocksRegistry {
 		register(UISettingsTrigger.class, UISettingsTrigger::new, 3613);
 		register(VisibleLinkTrigger.class, VisibleLinkTrigger::new, 3662);
 		register(CollisionStateTrigger.class, CollisionStateTrigger::new, 3640);
-		register(CollisionTrigger.class, CollisionTrigger::new, 1816);
-		register(ToggleTrigger.class, ToggleTrigger::new, 3643);
+		register(CollisionBlockTrigger.class, CollisionBlockTrigger::new, 1816);
+		register(ToggleBlockTrigger.class, ToggleBlockTrigger::new, 3643);
 		register(BPMTrigger.class, BPMTrigger::new, 3642);
-
-		// Triggers
 		register(ColorTrigger.class, ColorTrigger::new, 899);
 		register(MoveTrigger.class, MoveTrigger::new, 901);
 		register(StopTrigger.class, StopTrigger::new, 1616);
 		register(PulseTrigger.class, PulseTrigger::new, 1006);
 		register(AlphaTrigger.class, AlphaTrigger::new, 1007);
-		register(net.applee.gdlevelapi.blocks.triggers.spawnable.ToggleTrigger.class, net.applee.gdlevelapi.blocks.triggers.spawnable.ToggleTrigger::new, 1049);
+		register(ToggleTrigger.class, ToggleTrigger::new, 1049);
 		register(SpawnTrigger.class, SpawnTrigger::new, 1268);
 		register(RotateTrigger.class, RotateTrigger::new, 1346);
 		register(ScaleTrigger.class, ScaleTrigger::new, 2067);
@@ -101,7 +99,7 @@ public class BlocksRegistry {
 		register(MiddleGroundSettingsTrigger.class, MiddleGroundSettingsTrigger::new, 2999);
 		register(BackgroundSpeedTrigger.class, BackgroundSpeedTrigger::new, 3606);
 		register(MiddleGroundSpeedTrigger.class, MiddleGroundSpeedTrigger::new, 3612);
-		register(net.applee.gdlevelapi.blocks.triggers.spawnable.todo.CollisionTrigger.class, net.applee.gdlevelapi.blocks.triggers.spawnable.todo.CollisionTrigger::new, 1815);
+		register(CollisionTrigger.class, CollisionTrigger::new, 1815);
 		register(InstantCollisionTrigger.class, InstantCollisionTrigger::new, 3609);
 		register(OnDeathTrigger.class, OnDeathTrigger::new, 1812);
 		register(EnableTrailTrigger.class, EnableTrailTrigger::new, 32);
@@ -155,11 +153,22 @@ public class BlocksRegistry {
 		register(StopEnterEffectTrigger.class, StopEnterEffectTrigger::new, 3023);
 	}
 
+	public static void init() {
+		if (initialized)
+			return;
+
+		registerBlocks();
+
+		initialized = true;
+	}
+
 	public static <T extends Block> void register(Class<T> blockClass, Supplier<T> blockFactory, int id) {
 		REGISTRY.add(new RegistryBlock<>(id, blockClass, blockFactory));
 	}
 
 	public static Block create(Map<String, String> rawData) {
+		init();
+
 		String _id = rawData.get("1");
 		if (_id == null) {
 			lastId = -1;
@@ -179,6 +188,8 @@ public class BlocksRegistry {
 	}
 
 	public static Block create(int id) {
+		init();
+
 		for (var r : REGISTRY)
 			if (r.id == id)
 				return r.factory.get();
@@ -187,6 +198,8 @@ public class BlocksRegistry {
 	}
 
 	public static <T extends Block> T create(Class<T> blockClass) {
+		init();
+
 		for (var r : REGISTRY)
 			if (r.clazz == blockClass)
 				return (T) r.factory.get();
@@ -195,6 +208,8 @@ public class BlocksRegistry {
 	}
 
 	public static int getId(Class<? extends Block> blockClass) {
+		init();
+
 		int id = 0;
 
 		for (var r : REGISTRY) {

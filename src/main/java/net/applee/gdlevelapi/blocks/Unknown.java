@@ -22,16 +22,10 @@ public class Unknown extends Block {
 	public void readProperties(Map<Key<?>, String> data) {
 		super.readProperties(data);
 
-		System.out.println(data);
-
 		data.forEach((key, value) -> {
 			if (key instanceof Key.Unknown unknown) {
 				unknowns.add(unknown.getKey());
 			}
 		});
-
-//		System.out.println(id + ": " + posX + ", " + posY);
-
-//		System.out.println("Unknown data: " + data);
 	}
 }

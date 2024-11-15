@@ -38,8 +38,10 @@ public class AdvancedRandomTrigger extends SpawnableTrigger {
 
 		@Override
 		public List<RandomGroup> read(String raw) {
-
 			List<RandomGroup> groups = new ArrayList<>();
+
+			if (raw.isBlank())
+				return groups;
 
 			String[] vals = raw.split(Pattern.quote("."));
 			for (int i = 0; i < vals.length; i += 2)
@@ -50,6 +52,9 @@ public class AdvancedRandomTrigger extends SpawnableTrigger {
 
 		@Override
 		public String convert(List<RandomGroup> value) {
+			if (value.isEmpty())
+				return "";
+
 			StringBuilder stringBuilder = new StringBuilder();
 			value.forEach(v -> stringBuilder.append(v.groupId).append(".").append(v.chance).append("."));
 

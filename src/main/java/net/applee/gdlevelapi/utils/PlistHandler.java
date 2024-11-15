@@ -1,4 +1,4 @@
-package net.applee.gdlevelapi;
+package net.applee.gdlevelapi.utils;
 
 import lombok.Getter;
 import org.xml.sax.Attributes;
@@ -22,7 +22,7 @@ public class PlistHandler extends DefaultHandler {
 
 	private String _key   = "";
 	private String _value = "";
-	private String _type  = "";
+	private String _tag   = "";
 
 	private MapContainer _map = new MapContainer("root", parsed);
 
@@ -43,7 +43,7 @@ public class PlistHandler extends DefaultHandler {
 			}
 		}
 
-		_type = qName;
+		_tag = qName;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class PlistHandler extends DefaultHandler {
 				_map = map;
 			}
 
-			default -> _map.map.put(getKey(), new Value(_type, getVal()));
+			default -> _map.map.put(getKey(), new Value(_tag, getVal()));
 		}
 	}
 
@@ -85,17 +85,17 @@ public class PlistHandler extends DefaultHandler {
 	@Getter
 	public static class Value {
 
-		private final String type;
+		private final String tag;
 		private final Object value;
 
-		public Value(String type, Object value) {
-			this.type = type;
+		public Value(String tag, Object value) {
+			this.tag = tag;
 			this.value = value;
 		}
 
 		@Override
 		public String toString() {
-			return value.toString() + " -> " + type;
+			return value + "";
 		}
 	}
 

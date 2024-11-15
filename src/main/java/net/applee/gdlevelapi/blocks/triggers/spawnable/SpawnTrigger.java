@@ -44,8 +44,10 @@ public class SpawnTrigger extends TargetableTrigger {
 
 		@Override
 		public List<SpawnGroup> read(String raw) {
-
 			List<SpawnGroup> groups = new ArrayList<>();
+
+			if (raw.isBlank())
+				return groups;
 
 			String[] vals = raw.split(Pattern.quote("."));
 			for (int i = 0; i < vals.length; i += 2)
@@ -56,6 +58,9 @@ public class SpawnTrigger extends TargetableTrigger {
 
 		@Override
 		public String convert(List<SpawnGroup> value) {
+			if (value.isEmpty())
+				return "";
+
 			StringBuilder stringBuilder = new StringBuilder();
 			value.forEach(v -> stringBuilder.append(v.originalId).append(".").append(v.newId).append("."));
 

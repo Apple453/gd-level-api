@@ -1,4 +1,4 @@
-package net.applee.gdlevelapi;
+package net.applee.gdlevelapi.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,15 +12,17 @@ public class DataConverter {
 
 	private static final int XOR_MASK = 11;
 
+	private static final byte END_BYTE = 11;
+
 	public static String decode(byte[] source) {
-		while (source[source.length - 1] == 11)
+
+		// Remove excess bytes from end
+		while (source[source.length - 1] == END_BYTE)
 			source = Arrays.copyOf(source, source.length - 1);
 
 		source = xor(source);
 
 		String string = new String(source);
-
-		//		string = string.substring(0, string.length() - 1);
 
 		return unpack(string);
 	}
@@ -28,9 +30,6 @@ public class DataConverter {
 	public static byte[] encode(String source) {
 		String string = pack(source);
 		byte[] data = string.getBytes();
-
-		//		data = Arrays.copyOf(data, data.length + 1);
-		//		data[data.length - 1] = 0;
 
 		return xor(data);
 	}
